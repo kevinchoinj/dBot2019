@@ -1,52 +1,45 @@
 const Discord = require('discord.js');
 let json = require('./config.json');
 const discordToken = json.discordToken;
-const os = require('os');
-const moment = require('moment');
 
+const Logger = require('./logger');
+/*ids couchdb*/
+
+const adminId = json.adminId;
+
+const logger = new Logger();
+
+logger.on('messageLogged', (arg) => {
+  console.log('Listener called', arg);
+});
+
+logger.log('message');
+
+const {
+  receiveShodyraMessage,
+} = require('./commands/shodyra');
 /*ids couchdb*/
 const bot = new Discord.Client();
 
-const getRequestValue = (string, prefixLength) => {
-  const inputValue = string.content.substring(prefixLength).replace(/ /g,'');
-  return inputValue.toLowerCase();
-};
-
-const createAdminEmbed = (data) => {
-  const embed = new Discord.RichEmbed()
-    .setTitle('Admin Stats')
-    .addField('Total Memory', `${os.totalmem()} bytes`)
-    .addField('Free Memory',  `${os.freemem()} bytes`)
-    .addField('Uptime',   secondsToString(os.uptime()))
-    .addField('Platform',  os.platform())
-    .addField('Type',  os.type())
-    .addField('Release',  os.release());
-  return {embed};
-};
-
-const secondsToString = (seconds) => {
-  var numDays = Math.floor(seconds / 86400);
-  var numHours = Math.floor((seconds % 86400) / 3600);
-  var numMinutes = Math.floor(((seconds % 86400) % 3600) / 60);
-  var numSeconds = ((seconds % 86400) % 3600) % 60;
-  return `${numDays} days, ${numHours} hours, ${numMinutes} minutes, ${numSeconds} seconds`;
-}
-
 bot.on('message', function(message){
-    //skip if bot
-    if (message.author.bot) {
-      return;
-    }
-    let requestValue = getRequestValue(message, 1);
+  //skip if bot
+  if (message.author.bot) {
+    return;
+  }
 
-    if  (requestValue.startsWith('test')) {
-      //test content
-    }
+  //shodyra commands
+  if (message.author.id === adminId) {
+    receiveShodyraMessage(message);
+  }
 
-    if (message.content.startsWith('!adminstats')){
-      message.channel.send(createAdminEmbed());
-    }
-
+  //direct message
+  else if (message.channel.type==='dm') {
+    bot.users.get(adminId).send(
+      `${message.channel.recipient.id}<@${message.channel.recipient.id}>
+      <@${message.channel.recipient.username}#${message.channel.recipient.discriminator}>:
+      ${message.channel.lastMessage.content}`
+    );
+  }
 });
 
 bot.on('ready', () => {

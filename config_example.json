@@ -1,5 +1,11 @@
 {
   "discordToken": "discord bot token",
   "lastfmKey" : "lastfm api key",
-  "imgurToken": "imgur key"
+  "imgurToken": "imgur key",
+
+  "couchUsername": "couch data",
+  "couchPassword": "couch data",
+  "dbErrors": "couch dbname",
+
+  "adminId": "discord id"
 }
