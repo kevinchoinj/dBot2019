@@ -1,0 +1,5 @@
+{
+  "discordToken": "discord bot token",
+  "lastfmKey" : "lastfm api key",
+  "imgurToken": "imgur key"
+}
