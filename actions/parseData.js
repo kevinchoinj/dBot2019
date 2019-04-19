@@ -6,6 +6,24 @@ const secondsToString = (seconds) => {
   return `${numDays} days, ${numHours} hours, ${numMinutes} minutes, ${numSeconds} seconds`;
 }
 
+const getRequestValue = (message) => {
+  const commandArray = message.split(' ');
+  const inputValue =  commandArray.slice(1).join(' ');
+  return inputValue;
+};
+
+const getRequestValueMulti = (message) => {
+  const commandArray = message.split(' ');
+  const primaryValue = commandArray.slice(1, 2).join(' ')
+  const secondaryValue =  commandArray.slice(2).join(' ');
+  return {
+    primaryValue: primaryValue,
+    secondaryValue: secondaryValue,
+  }
+}
+
 module.exports = {
   secondsToString,
+  getRequestValue,
+  getRequestValueMulti,
 };
