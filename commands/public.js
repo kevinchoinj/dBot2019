@@ -4,9 +4,10 @@ const {
 const {
   getRandom,
 } = require('../actions/parseData.js');
+const {
+  getNames,
+} = require('../actions/jsonRequests');
 
-
-const namesJson = require('../data/names.json');
 const rp = require('request-promise');
 let requestValue = '';
 
@@ -14,12 +15,17 @@ const receivePublicMessage = (message) => {
   if (message.content.startsWith('!')) {
     requestValue = message.content.substring(1);
   }
-  if (namesJson[requestValue]) {
-    rp(getImgurOptions(namesJson[requestValue]))
+  if (getNames()[requestValue]) {
+    rp(getImgurOptions(getNames()[requestValue]))
       .then(function(res) {
         let parsed =  JSON.parse(res);
         let randomNumber = getRandom(parsed.data.images_count);
-        message.channel.send(parsed.data.images[randomNumber].link);
+        if (parsed.data.images[randomNumber]) {
+          message.channel.send(parsed.data.images[randomNumber].link);
+        }
+        else {
+          message.channel.send('Error posting image');
+        }
       });
   }
 };

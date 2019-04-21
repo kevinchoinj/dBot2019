@@ -7,7 +7,9 @@ const {
   getRequestValue,
   getRequestValueMulti,
 } = require('../actions/parseData');
-
+const {
+  updateNames,
+} = require('../actions/jsonRequests');
 
 let myReadStream = fs.createReadStream('./Readme.MD', 'utf8');
 let myWriteStream = fs.createWriteStream('./writeMe.txt');
@@ -89,6 +91,7 @@ const receiveShodyraMessage = (message) => {
             message.channel.send(`Error adding name: ${requestValues.primaryValue}`);
           }
           else {
+            updateNames();
             message.channel.send(`Success adding name: ${requestValues.primaryValue}`);
           }
         });
@@ -110,6 +113,7 @@ const receiveShodyraMessage = (message) => {
             message.channel.send(`Error removing name: ${requestValue}`);
           }
           else {
+            updateNames();
             message.channel.send(`Success removing name: ${requestValue}`);
           }
         });

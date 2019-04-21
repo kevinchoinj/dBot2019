@@ -21,6 +21,9 @@ const {
 const {
   receivePublicMessage,
 } = require('./commands/public');
+const {
+  updateNames,
+} = require('./actions/jsonRequests');
 
 const bot = new Discord.Client();
 
@@ -53,6 +56,7 @@ bot.on('message', function(message){
 
 bot.on('ready', () => {
   bot.user.setActivity('js');
+  updateNames();
 });
 
 bot.login(discordToken);
