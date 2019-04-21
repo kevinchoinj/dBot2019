@@ -18,7 +18,10 @@ logger.log('message');
 const {
   receiveShodyraMessage,
 } = require('./commands/shodyra');
-/*ids couchdb*/
+const {
+  receivePublicMessage,
+} = require('./commands/public');
+
 const bot = new Discord.Client();
 
 bot.on('message', function(message){
@@ -27,19 +30,25 @@ bot.on('message', function(message){
     return;
   }
 
-  //shodyra commands
-  if (message.author.id === adminId) {
-    receiveShodyraMessage(message);
-  }
-
   //direct message
-  else if (message.channel.type==='dm') {
+  if (message.channel.type==='dm') {
     bot.users.get(adminId).send(
       `${message.channel.recipient.id}<@${message.channel.recipient.id}>
       <@${message.channel.recipient.username}#${message.channel.recipient.discriminator}>:
       ${message.channel.lastMessage.content}`
     );
   }
+
+  else {
+
+    //shodyra commands
+    if (message.author.id === adminId) {
+      receiveShodyraMessage(message);
+    }
+
+    receivePublicMessage(message);
+  }
+
 });
 
 bot.on('ready', () => {

@@ -8,6 +8,19 @@ const {
   getRequestValueMulti,
 } = require('../actions/parseData');
 
+
+let myReadStream = fs.createReadStream('./Readme.MD', 'utf8');
+let myWriteStream = fs.createWriteStream('./writeMe.txt');
+
+/*
+myReadStream.on('data', function(chunk) {
+  myWriteStream.write(chunk);
+})
+*/
+//same as above
+myReadStream.pipe(myWriteStream);
+//myReadStream.pipe(res);
+
 const receiveShodyraMessage = (message) => {
 
   if (message.content.startsWith('!adminstats')){

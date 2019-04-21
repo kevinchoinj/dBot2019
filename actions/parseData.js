@@ -22,8 +22,14 @@ const getRequestValueMulti = (message) => {
   }
 }
 
+const getRandom = (totalNumber) => {
+  let randomNumber = Math.floor(Math.random()*totalNumber);
+  return randomNumber;
+};
+
 module.exports = {
   secondsToString,
   getRequestValue,
   getRequestValueMulti,
+  getRandom,
 };
