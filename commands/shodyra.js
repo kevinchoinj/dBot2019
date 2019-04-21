@@ -58,7 +58,7 @@ const receiveShodyraMessage = (message) => {
         message.channel.send(`Error creating file: ${requestValues.primaryValue}`);
       }
       else {
-        message.channel.send(`File created: ${requestValues.primaryValue}`);
+        message.channel.send(`File created: ${requestValues.secondaryValue}`);
       }
     });
   }
@@ -71,6 +71,27 @@ const receiveShodyraMessage = (message) => {
       }
       else {
         message.channel.send(`File removed: ${requestValue}`);
+      }
+    });
+  }
+
+  if (message.content.startsWith('!addImgurName')){
+    const requestValues = getRequestValueMulti(message.content);
+    fs.readFile('./data/names.json', function (err, data) {
+      if (err) {
+        message.channel.send(`Error reading names file: ${requestValues.primaryValue}`);
+      }
+      else {
+        let jsonData = JSON.parse(data);
+        jsonData[requestValues.primaryValue] = requestValues.secondaryValue;
+        fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
+          if (err) {
+            message.channel.send(`Error adding name: ${requestValues.primaryValue}`);
+          }
+          else {
+            message.channel.send(`Success adding name: ${requestValues.primaryValue}`);
+          }
+        });
       }
     });
   }
