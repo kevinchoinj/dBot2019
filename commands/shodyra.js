@@ -96,6 +96,41 @@ const receiveShodyraMessage = (message) => {
     });
   }
 
+  if (message.content.startsWith('!removeImgurName')){
+    const requestValue = getRequestValue(message.content);
+    fs.readFile('./data/names.json', function (err, data) {
+      if (err) {
+        message.channel.send(`Error reading names file: ${requestValue}`);
+      }
+      else {
+        let jsonData = JSON.parse(data);
+        delete jsonData[requestValue];
+        fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
+          if (err) {
+            message.channel.send(`Error removing name: ${requestValue}`);
+          }
+          else {
+            message.channel.send(`Success removing name: ${requestValue}`);
+          }
+        });
+      }
+    });
+  }
+
+  if (message.content.startsWith('!listImgur')){
+    fs.readFile('./data/names.json', function (err, data) {
+      if (err) {
+        message.channel.send('Error reading names file');
+      }
+      else {
+        let jsonData = JSON.parse(data);
+        let dataList = Object.keys(jsonData).join(', ');
+        //discord message length limit = 2000
+        message.channel.send(dataList.substring(0, 2000));
+      }
+    });
+  }
+
   if (message.content.startsWith('!test')){
     const requestValues = getRequestValueMulti(message.content);
     message.channel.send(`Primary Value: ${requestValues.primaryValue}`);
