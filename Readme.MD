@@ -13,16 +13,17 @@ Commands for all administrative users `!<command>`
 ## Creator Commands
 Commands for the master user `!<command>`
 
-| Command                    | Description                               | Parameters |
-|:---------------------------|:------------------------------------------|------------|
-| `adminstats`               |Displays system data                       |0           |
-| `mkdir`                    |Creates empty directory                    |1           |
-| `rmdir`                    |Deletes empty directory                    |1           |
-| `writeFile`                |Creates named file                         |2           |
-| `deleteFile`               |Deletes named file                         |1           |
-| `addImgurName`             |Adds Imgur album to collection             |2           |
-| `removeImgurName`          |Removes Imgur album from collection        |1           |
-| `listImgur`                |Lists Imgur albums in collection           |0           |
+| Command                    | Description                               |
+|:---------------------------|:------------------------------------------|
+| `adminstats`               |Displays system data                       |
+| `mkdir [dir name]`         |Creates empty directory                    |
+| `rmdir [dir name]`         |Deletes empty directory                    |
+| `writeFile [file name] [content]`|Creates named file                   |
+| `copyFile [orig file] [dest file]`|Copies file to another              |
+| `deleteFile [file name]`   |Deletes named file                         |
+| `addImgurName [album label] [album id]` |Adds Imgur album to collection|
+| `removeImgurName [album label]`|Removes Imgur album from collection    |
+| `listImgur`                |Lists Imgur albums in collection           |
 
 
 ## Necessary Files

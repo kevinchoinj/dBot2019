@@ -11,18 +11,6 @@ const {
   updateNames,
 } = require('../actions/jsonRequests');
 
-let myReadStream = fs.createReadStream('./Readme.MD', 'utf8');
-let myWriteStream = fs.createWriteStream('./writeMe.txt');
-
-/*
-myReadStream.on('data', function(chunk) {
-  myWriteStream.write(chunk);
-})
-*/
-//same as above
-myReadStream.pipe(myWriteStream);
-//myReadStream.pipe(res);
-
 const receiveShodyraMessage = (message) => {
 
   if (message.content.startsWith('!adminstats')){
@@ -63,6 +51,14 @@ const receiveShodyraMessage = (message) => {
         message.channel.send(`File created: ${requestValues.secondaryValue}`);
       }
     });
+  }
+
+  if (message.content.startsWith('!copyFile')){
+    const requestValues = getRequestValueMulti(message.content);
+    let myReadStream = fs.createReadStream(requestValues.primaryValue, 'utf8');
+    let myWriteStream = fs.createWriteStream(requestValues.secondaryValue);
+    myReadStream.pipe(myWriteStream);
+    message.channel.send(`File copied: ${requestValues.primaryValue} to ${requestValues.secondaryValue}`);
   }
 
   if (message.content.startsWith('!deleteFile')){
