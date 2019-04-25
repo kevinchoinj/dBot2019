@@ -7,6 +7,13 @@ const {
 const {
   getNames,
 } = require('../actions/jsonRequests');
+const {
+  createCommandsEmbed,
+} = require('../messaging/embeds');
+
+const {
+  getBot,
+} = require('../configuration/discordBot');
 
 const rp = require('request-promise');
 let requestValue = '';
@@ -27,6 +34,13 @@ const receivePublicMessage = (message) => {
           message.channel.send('Error posting image');
         }
       });
+  }
+  if (message.content.startsWith('!commands')) {
+    message.channel.send(createCommandsEmbed());
+  }
+
+  if (message.content.startsWith('!test')){
+    console.log(getBot().user.displayAvatarURL);
   }
 };
 

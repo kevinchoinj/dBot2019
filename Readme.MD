@@ -5,6 +5,11 @@ New Proj WIP
 ## Regular Commands
 Commands for all regular users `!<command>`
 
+| Command                    | Description                               |
+|:---------------------------|:------------------------------------------|
+| `[keyValue]`               |Displays imgur album with key value        |
+| `commands`                 |Displays available commands                |
+
 
 ## Admin Commands
 Commands for all administrative users `!<command>`
