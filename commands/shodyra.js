@@ -104,16 +104,21 @@ const receiveShodyraMessage = (message) => {
       }
       else {
         let jsonData = JSON.parse(data);
-        delete jsonData[requestValue];
-        fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
-          if (err) {
-            message.channel.send(`Error removing name: ${requestValue}`);
-          }
-          else {
-            updateNames();
-            message.channel.send(`Success removing name: ${requestValue}`);
-          }
-        });
+        if (jsonData[requestValue]) {
+          delete jsonData[requestValue];
+          fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
+            if (err) {
+              message.channel.send(`Error removing name: ${requestValue}`);
+            }
+            else {
+              updateNames();
+              message.channel.send(`Success removing name: ${requestValue}`);
+            }
+          });
+        }
+        else {
+          message.channel.send(`Name not found: ${requestValue}`);
+        }
       }
     });
   }
