@@ -1,19 +1,6 @@
-const Discord = require('discord.js');
 let json = require('./config.json');
-const discordToken = json.discordToken;
-
-const Logger = require('./logger');
-/*ids couchdb*/
 
 const adminId = json.adminId;
-
-const logger = new Logger();
-
-logger.on('messageLogged', (arg) => {
-  console.log('Listener called', arg);
-});
-
-logger.log('message');
 
 const {
   receiveShodyraMessage,
@@ -22,17 +9,18 @@ const {
   receivePublicMessage,
 } = require('./commands/public');
 const {
-  updateNames,
-} = require('./actions/jsonRequests');
+  getBot,
+} = require('./configuration/discordBot');
 
-const bot = new Discord.Client();
+require('./configuration/botStart.js');
+
+const bot = getBot();
 
 bot.on('message', function(message){
   //skip if bot
   if (message.author.bot) {
     return;
   }
-
   //direct message
   if (message.channel.type==='dm') {
     bot.users.get(adminId).send(
@@ -41,22 +29,11 @@ bot.on('message', function(message){
       ${message.channel.lastMessage.content}`
     );
   }
-
   else {
-
     //shodyra commands
     if (message.author.id === adminId) {
       receiveShodyraMessage(message);
     }
-
     receivePublicMessage(message);
   }
-
 });
-
-bot.on('ready', () => {
-  bot.user.setActivity('js');
-  updateNames();
-});
-
-bot.login(discordToken);

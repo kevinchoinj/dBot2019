@@ -1,4 +1,5 @@
 const fs = require('fs');
+const moment = require('moment');
 
 const {
   createAdminEmbed,
@@ -132,9 +133,19 @@ const receiveShodyraMessage = (message) => {
   }
 
   if (message.content.startsWith('!test')){
+    /*
     const requestValues = getRequestValueMulti(message.content);
     message.channel.send(`Primary Value: ${requestValues.primaryValue}`);
     message.channel.send(`Secondary Value: ${requestValues.secondaryValue}`);
+    */
+
+    if (moment('Wed Apr 21 19:36:23 +0000 2019', 'ddd MMM DD HH:mm:ss Z YYYY').isAfter(moment('Sun Apr 24 18:58:23 +0000 2019', 'ddd MMM DD HH:mm:ss Z YYYY'))) {
+      message.channel.send('true');
+    }
+    else {
+      message.channel.send('false');
+    }
+
   }
 
 };
