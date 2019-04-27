@@ -12,15 +12,11 @@ const secondsToString = (seconds) => {
   ];
 
   let stringsArray = [];
-
   timeArray.map((value) => {
-    if (value.time===0) {
-      return null;
-    }
-    else if (value.time===1) {
+    if (value.time===1) {
       stringsArray.push(`${value.time} ${value.label}`);
     }
-    else {
+    else if (value.time!=0) {
       stringsArray.push(`${value.time} ${value.label}s`);
     }
   });
@@ -36,12 +32,8 @@ const getRequestValue = (message) => {
 
 const getRequestValueMulti = (message) => {
   const commandArray = message.split(' ');
-  const primaryValue = commandArray.slice(1, 2).join(' ')
-  const secondaryValue =  commandArray.slice(2).join(' ');
-  return {
-    primaryValue: primaryValue,
-    secondaryValue: secondaryValue,
-  };
+  const commandValues = commandArray.slice(1, commandArray.length);
+  return commandValues;
 };
 
 const getRandom = (totalNumber) => {
@@ -49,13 +41,9 @@ const getRandom = (totalNumber) => {
   return randomNumber;
 };
 
-const getSum = (valOne, valTwo) => {
-  return valOne + valTwo;
-}
 module.exports = {
   secondsToString,
   getRequestValue,
   getRequestValueMulti,
   getRandom,
-  getSum,
 };

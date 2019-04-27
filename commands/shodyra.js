@@ -43,22 +43,22 @@ const receiveShodyraMessage = (message) => {
 
   if (message.content.startsWith('!writeFile')){
     const requestValues = getRequestValueMulti(message.content);
-    fs.writeFile(requestValues.primaryValue, requestValues.secondaryValue, (err) => {
+    fs.writeFile(requestValues[0], requestValues[1], (err) => {
       if (err) {
-        message.channel.send(`Error creating file: ${requestValues.primaryValue}`);
+        message.channel.send(`Error creating file: ${requestValues[0]}`);
       }
       else {
-        message.channel.send(`File created: ${requestValues.secondaryValue}`);
+        message.channel.send(`File created: ${requestValues[1]}`);
       }
     });
   }
 
   if (message.content.startsWith('!copyFile')){
     const requestValues = getRequestValueMulti(message.content);
-    let myReadStream = fs.createReadStream(requestValues.primaryValue, 'utf8');
-    let myWriteStream = fs.createWriteStream(requestValues.secondaryValue);
+    let myReadStream = fs.createReadStream(requestValues[0], 'utf8');
+    let myWriteStream = fs.createWriteStream(requestValues[1]);
     myReadStream.pipe(myWriteStream);
-    message.channel.send(`File copied: ${requestValues.primaryValue} to ${requestValues.secondaryValue}`);
+    message.channel.send(`File copied: ${requestValues[0]} to ${requestValues[1]}`);
   }
 
   if (message.content.startsWith('!deleteFile')){
@@ -77,18 +77,18 @@ const receiveShodyraMessage = (message) => {
     const requestValues = getRequestValueMulti(message.content);
     fs.readFile('./data/names.json', function (err, data) {
       if (err) {
-        message.channel.send(`Error reading names file: ${requestValues.primaryValue}`);
+        message.channel.send(`Error reading names file: ${requestValues[0]}`);
       }
       else {
         let jsonData = JSON.parse(data);
-        jsonData[requestValues.primaryValue] = requestValues.secondaryValue;
+        jsonData[requestValues[0]] = requestValues[1];
         fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
           if (err) {
-            message.channel.send(`Error adding name: ${requestValues.primaryValue}`);
+            message.channel.send(`Error adding name: ${requestValues[0]}`);
           }
           else {
             updateNames();
-            message.channel.send(`Success adding name: ${requestValues.primaryValue}`);
+            message.channel.send(`Success adding name: ${requestValues[0]}`);
           }
         });
       }
@@ -96,30 +96,61 @@ const receiveShodyraMessage = (message) => {
   }
 
   if (message.content.startsWith('!removeImgurName')){
-    const requestValue = getRequestValue(message.content);
-    fs.readFile('./data/names.json', function (err, data) {
-      if (err) {
-        message.channel.send(`Error reading names file: ${requestValue}`);
-      }
-      else {
-        let jsonData = JSON.parse(data);
-        if (jsonData[requestValue]) {
-          delete jsonData[requestValue];
+    const requestValues = getRequestValueMulti(message.content);
+
+    if (requestValues.length<2) {
+      fs.readFile('./data/names.json', function (err, data) {
+        if (err) {
+          message.channel.send('Error reading names file');
+        }
+        else {
+          let jsonData = JSON.parse(data);
+          if (jsonData[requestValues[0]]) {
+            delete jsonData[requestValues[0]];
+            fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
+              if (err) {
+                message.channel.send(`Error removing name: ${requestValues[0]}`);
+              }
+              else {
+                updateNames();
+                message.channel.send(`Success removing name: ${requestValues[0]}`);
+              }
+            });
+          }
+          else {
+            message.channel.send(`Name not found: ${requestValues[0]}`);
+          }
+        }
+      });
+    }
+    else {
+      fs.readFile('./data/names.json', function (err, data) {
+        if (err) {
+          message.channel.send('Error reading names file');
+        }
+        else {
+          let jsonData = JSON.parse(data);
+          requestValues.map((value) => {
+            if (jsonData[value]) {
+              delete jsonData[value];
+            }
+            else {
+              message.channel.send(`Name not found: ${value}`);
+            }
+          });
           fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
             if (err) {
-              message.channel.send(`Error removing name: ${requestValue}`);
+              message.channel.send(`Error removing names`);
             }
             else {
               updateNames();
-              message.channel.send(`Success removing name: ${requestValue}`);
+              message.channel.send(`Success removing names`);
             }
           });
         }
-        else {
-          message.channel.send(`Name not found: ${requestValue}`);
-        }
-      }
-    });
+      });
+    }
+
   }
 
   if (message.content.startsWith('!listImgur')){

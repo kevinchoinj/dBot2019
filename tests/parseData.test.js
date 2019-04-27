@@ -1,5 +1,6 @@
 const functions = require('../actions/parseData');
 
+//secondsToString
 test('60 seconds to time', () => {
   expect(functions.secondsToString(60)).toBe('1 minute');
 });
@@ -30,4 +31,32 @@ test('86400 seconds to time', () => {
 
 test('999999 seconds to time', () => {
   expect(functions.secondsToString(999999)).toBe('11 days, 13 hours, 46 minutes, 39 seconds');
+});
+
+//getRequestValue
+test('get single value after !', () => {
+  expect(functions.getRequestValue('! result')).toBe('result');
+});
+
+test('get single value after command', () => {
+  expect(functions.getRequestValue('!test result')).toBe('result');
+});
+
+//getRequestValues
+test('get two values after !', () => {
+  expect(functions.getRequestValueMulti('! resultOne resultTwo')).toEqual(
+    ["resultOne", "resultTwo"]
+  );
+});
+
+test('get four values after !', () => {
+  expect(functions.getRequestValueMulti('! resultOne resultTwo resultThree resultFour')).toEqual(
+    ['resultOne', 'resultTwo', 'resultThree', 'resultFour']
+  );
+});
+
+test('get four values after command', () => {
+  expect(functions.getRequestValueMulti('!test resultOne resultTwo resultThree resultFour')).toEqual(
+    ['resultOne', 'resultTwo', 'resultThree', 'resultFour']
+  );
 });
