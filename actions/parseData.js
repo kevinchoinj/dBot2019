@@ -32,6 +32,15 @@ const getRequestValue = (message) => {
 
 const getRequestValueMulti = (message) => {
   const commandArray = message.split(' ');
+  const valueOne = commandArray.slice(1, 2).join(' ')
+  const valueTwo =  commandArray.slice(2).join(' ');
+  return {
+    valueOne: valueOne,
+    valueTwo: valueTwo,
+  }
+}
+const getRequestValueArray= (message) => {
+  const commandArray = message.split(' ');
   const commandValues = commandArray.slice(1, commandArray.length);
   return commandValues;
 };
@@ -45,5 +54,6 @@ module.exports = {
   secondsToString,
   getRequestValue,
   getRequestValueMulti,
+  getRequestValueArray,
   getRandom,
 };

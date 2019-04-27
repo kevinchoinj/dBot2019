@@ -43,12 +43,12 @@ const receiveShodyraMessage = (message) => {
 
   if (message.content.startsWith('!writeFile')){
     const requestValues = getRequestValueMulti(message.content);
-    fs.writeFile(requestValues[0], requestValues[1], (err) => {
+    fs.writeFile(requestValues.valueOne, requestValues.valueTwo, (err) => {
       if (err) {
-        message.channel.send(`Error creating file: ${requestValues[0]}`);
+        message.channel.send(`Error creating file: ${requestValues.valueOne}`);
       }
       else {
-        message.channel.send(`File created: ${requestValues[1]}`);
+        message.channel.send(`File created: ${requestValues.valueOne}`);
       }
     });
   }

@@ -42,21 +42,36 @@ test('get single value after command', () => {
   expect(functions.getRequestValue('!test result')).toBe('result');
 });
 
-//getRequestValues
+//getRequestValueMulti
+test('get two values value after !', () => {
+  expect(functions.getRequestValueMulti('! result resultTwo')).toEqual({
+    valueOne: 'result',
+    valueTwo: 'resultTwo'
+  });
+});
+
+test('get two value after command', () => {
+  expect(functions.getRequestValueMulti('!test result resultTwo')).toEqual({
+    valueOne: 'result',
+    valueTwo: 'resultTwo'
+  });
+});
+
+//getRequestValueArray
 test('get two values after !', () => {
-  expect(functions.getRequestValueMulti('! resultOne resultTwo')).toEqual(
-    ["resultOne", "resultTwo"]
+  expect(functions.getRequestValueArray('! resultOne resultTwo')).toEqual(
+    ['resultOne', 'resultTwo']
   );
 });
 
 test('get four values after !', () => {
-  expect(functions.getRequestValueMulti('! resultOne resultTwo resultThree resultFour')).toEqual(
+  expect(functions.getRequestValueArray('! resultOne resultTwo resultThree resultFour')).toEqual(
     ['resultOne', 'resultTwo', 'resultThree', 'resultFour']
   );
 });
 
 test('get four values after command', () => {
-  expect(functions.getRequestValueMulti('!test resultOne resultTwo resultThree resultFour')).toEqual(
+  expect(functions.getRequestValueArray('!test resultOne resultTwo resultThree resultFour')).toEqual(
     ['resultOne', 'resultTwo', 'resultThree', 'resultFour']
   );
 });
