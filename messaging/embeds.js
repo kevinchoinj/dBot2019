@@ -41,6 +41,7 @@ const createCommandsEmbed = () => {
       **!addImgurName [album label] [album id]** -Adds Imgur album to collection
       **!removeImgurName [album label]** - Removes Imgur album from collection
       **!listImgur** - Lists Imgur albums in collection
+      **!setDebug [channel id]** - Sets debug channel ID
     `);
   return {embed};
 }
