@@ -38,10 +38,6 @@ const receivePublicMessage = (message) => {
   if (message.content.startsWith('!commands')) {
     message.channel.send(createCommandsEmbed());
   }
-
-  if (message.content.startsWith('!test')){
-    console.log(getBot().user.displayAvatarURL);
-  }
 };
 
 module.exports = {

@@ -1,14 +1,16 @@
-let error = '';
+let configVars = {
+  error: '',
+  debugChannelId: false,
+};
 
-const getError = () => {
-  return error;
-}
-
-const setError = (payload) => {
-  error = payload;
-}
+const setConfigVar = (payload, key) => {
+  configVars[key] = payload;
+};
+const getConfigVar = (key) => {
+  return configVars[key];
+};
 
 module.exports = {
-  getError,
-  setError,
+  setConfigVar,
+  getConfigVar,
 };
