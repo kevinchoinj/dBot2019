@@ -7,9 +7,6 @@ const {
   getRequestValueMulti,
 } = require('../actions/parseData');
 const {
-  updateNames,
-} = require('../actions/jsonRequests');
-const {
   setConfigVar,
   getConfigVar,
 } = require('../configuration/localData');
@@ -20,11 +17,17 @@ const {
   getBot,
   sendDebugMessage,
 } = require('../configuration/discordBot');
-
+const {
+  receiveShodyraImgurMessage,
+} = require('./shodyraImgur');
 
 const receiveShodyraMessage = (message) => {
 
-  if (message.content.startsWith('!adminstats')){
+  if (message.content.startsWith('!imgur')){
+    receiveShodyraImgurMessage(message);
+  }
+
+  else if (message.content.startsWith('!adminstats')){
     message.channel.send(createAdminEmbed());
   }
 
@@ -95,100 +98,6 @@ const receiveShodyraMessage = (message) => {
       }
       else {
         message.channel.send(`File removed: ${requestValue}`);
-      }
-    });
-  }
-
-  else if (message.content.startsWith('!addImgurName')){
-    const requestValues = getRequestValueMulti(message.content);
-    fs.readFile('./data/names.json', function (err, data) {
-      if (err) {
-        message.channel.send(`Error reading names file: ${requestValues[0]}`);
-      }
-      else {
-        let jsonData = JSON.parse(data);
-        jsonData[requestValues[0]] = requestValues[1];
-        fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
-          if (err) {
-            message.channel.send(`Error adding name: ${requestValues[0]}`);
-          }
-          else {
-            updateNames();
-            message.channel.send(`Success adding name: ${requestValues[0]}`);
-          }
-        });
-      }
-    });
-  }
-
-  else if (message.content.startsWith('!removeImgurName')){
-    const requestValues = getRequestValueMulti(message.content);
-
-    if (requestValues.length<2) {
-      fs.readFile('./data/names.json', function (err, data) {
-        if (err) {
-          message.channel.send('Error reading names file');
-        }
-        else {
-          let jsonData = JSON.parse(data);
-          if (jsonData[requestValues[0]]) {
-            delete jsonData[requestValues[0]];
-            fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
-              if (err) {
-                message.channel.send(`Error removing name: ${requestValues[0]}`);
-              }
-              else {
-                updateNames();
-                message.channel.send(`Success removing name: ${requestValues[0]}`);
-              }
-            });
-          }
-          else {
-            message.channel.send(`Name not found: ${requestValues[0]}`);
-          }
-        }
-      });
-    }
-    else {
-      fs.readFile('./data/names.json', function (err, data) {
-        if (err) {
-          message.channel.send('Error reading names file');
-        }
-        else {
-          let jsonData = JSON.parse(data);
-          requestValues.map((value) => {
-            if (jsonData[value]) {
-              delete jsonData[value];
-            }
-            else {
-              message.channel.send(`Name not found: ${value}`);
-            }
-          });
-          fs.writeFile('./data/names.json', JSON.stringify(jsonData), (err) => {
-            if (err) {
-              message.channel.send(`Error removing names`);
-            }
-            else {
-              updateNames();
-              message.channel.send(`Success removing names`);
-            }
-          });
-        }
-      });
-    }
-
-  }
-
-  else if (message.content.startsWith('!listImgur')){
-    fs.readFile('./data/names.json', function (err, data) {
-      if (err) {
-        message.channel.send('Error reading names file');
-      }
-      else {
-        let jsonData = JSON.parse(data);
-        let dataList = Object.keys(jsonData).join(', ');
-        //discord message length limit = 2000
-        message.channel.send(dataList.substring(0, 2000));
       }
     });
   }

@@ -38,9 +38,9 @@ const createCommandsEmbed = () => {
       **!writeFile [file name] [content]** - Creates named file
       **!copyFile [orig file] [dest file]** - Copies file to another
       **!deleteFile [file name]** - Deletes named file
-      **!addImgurName [album label] [album id]** -Adds Imgur album to collection
-      **!removeImgurName [album label]** - Removes Imgur album from collection
-      **!listImgur** - Lists Imgur albums in collection
+      **!imgurAdd [album label] [album id]** -Adds Imgur album to collection
+      **!imgurRemove [album label]** - Removes Imgur album from collection
+      **!imgurList** - Lists Imgur albums in collection
       **!setDebug [channel id]** - Sets debug channel ID
     `);
   return {embed};
