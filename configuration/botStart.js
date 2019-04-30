@@ -14,7 +14,7 @@ const {
   setConfigVar
 } = require('./localData');
 
-/* create databases if they do not exist */
+// create databases if they do not exist
 checkCouch(
   'shodyra_discord',
   'ids',
@@ -46,6 +46,16 @@ idArray.map((idRow) => {
 });
 */
 
+//get recent error from database and store locally
+couchGet('errors', `_design/errors/_view/errors?include_docs=true`).then(
+  function(data) {
+    if (data.data.rows[0]) {
+      setConfigVar(data.data.rows[0], 'error');
+    }
+  }
+);
+
+//get channel id from database for where to post debug messages to
 couchGet('shodyra_discord', `_design/data/_view/data?key="debug"&include_docs=true`).then(
   function(data) {
     if (data.data.rows[0]) {

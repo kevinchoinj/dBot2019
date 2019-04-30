@@ -13,7 +13,7 @@ const {
 } = require('./configuration/discordBot');
 
 require('./configuration/botStart.js');
-
+require('./cron/couchErrors');
 const bot = getBot();
 
 bot.on('message', function(message){

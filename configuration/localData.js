@@ -1,5 +1,5 @@
 let configVars = {
-  error: '',
+  error: {},
   debugChannelId: false,
 };
 
