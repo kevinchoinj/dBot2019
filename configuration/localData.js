@@ -4,7 +4,10 @@ let configVars = {
 };
 
 const setConfigVar = (payload, key) => {
-  configVars[key] = payload;
+  configVars = {
+    ...configVars,
+    [key]: payload,
+  }
 };
 const getConfigVar = (key) => {
   return configVars[key];
