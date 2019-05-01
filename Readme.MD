@@ -32,6 +32,7 @@ Commands for the master user `!<command>`
 | `setDebug [channel id]`    |Sets debug messaging channel               |
 | `configDebug`              |Sends ID for current Debug Channel         |
 | `configError`              |Sends most recent Error stored in couchDB  |
+| `fetchGit`                 |Displays recent github commits             |
 
 
 ## Necessary Files

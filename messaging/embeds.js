@@ -1,5 +1,6 @@
 const os = require('os');
 const Discord = require('discord.js');
+const moment = require('moment');
 
 const {
   secondsToString,
@@ -42,10 +43,27 @@ const createCommandsEmbed = () => {
       **!imgurRemove [album label]** - Removes Imgur album from collection
       **!imgurList** - Lists Imgur albums in collection
       **!setDebug [channel id]** - Sets debug channel ID
+      **!fetchGithub** - Displays recent github commits
+    `);
+  return {embed};
+}
+
+const createGitEmbed = (commits) => {
+  const commitData = commits[0],
+        commitDataTwo = commits[1],
+        commitDataThree = commits[2];
+  const embed = new Discord.RichEmbed()
+    .setTitle('Git Updates')
+    .setThumbnail(getBot().user.displayAvatarURL)
+    .addField('Recent Commits',`
+      **${moment(commitData.commit.author.date).fromNow()}** - ${commitData.commit.message}
+      **${moment(commitDataTwo.commit.author.date).fromNow()}** - ${commitDataTwo.commit.message}
+      **${moment(commitDataThree.commit.author.date).fromNow()}** - ${commitDataThree.commit.message}
     `);
   return {embed};
 }
 module.exports = {
   createAdminEmbed,
   createCommandsEmbed,
+  createGitEmbed,
 };
