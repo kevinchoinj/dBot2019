@@ -12,7 +12,7 @@ const {
 } = require('../messaging/embeds');
 const {
   sendError,
-} = require('../actions/errors');
+} = require('../actions/couchRequests');
 const rp = require('request-promise');
 let requestValue = '';
 

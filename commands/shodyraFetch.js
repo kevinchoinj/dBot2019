@@ -1,6 +1,6 @@
 const {
   sendError,
-} = require('../actions/errors');
+} = require('../actions/couchRequests');
 
 const rp = require('request-promise');
 

@@ -1,9 +1,7 @@
 const {
   getCouch,
-} = require('../actions/couchRequests');
-const {
   sendError,
-} = require( '../actions/errors');
+} = require('../actions/couchRequests');
 
 const checkCouch = (dbName, viewName, viewMap) => {
   getCouch().listDatabases()

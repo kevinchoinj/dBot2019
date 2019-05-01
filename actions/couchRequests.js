@@ -1,7 +1,7 @@
 const NodeCouchDb = require('node-couchdb');
 
 let json = require('../config.json');
-
+const dbErrors = json.dbErrors;
 const couchUsername = json.couchUsername;
 const couchPassword = json.couchPassword;
 
@@ -12,12 +12,24 @@ const couch = new NodeCouchDb({
   }
 });
 
+const sendError = (component, error, text) => {
+  couchPost(dbErrors, {
+    app: 'discordClean',
+    component: component,
+    error: error,
+    text: text,
+  });
+};
+
 const getCouch = () => {
   return couch;
 };
 
 const couchGet = (database, databaseViewUrl) => new Promise((resolve, reject) => {
   resolve(couch.get(database, databaseViewUrl));
+  reject((error) => {
+    sendError('couch get', error, 'couchGet error');
+  });
 });
 
 const couchPost = (database, newData) => new Promise((resolve) => {
@@ -56,6 +68,9 @@ const updateDatabase = (databaseName, databaseViewUrl, newData) => new Promise((
         });
       }
     }));
+  reject((error) => {
+    sendError('couch update', error, 'updateDatabase error');
+  });
 });
 
 module.exports = {
@@ -63,4 +78,5 @@ module.exports = {
   couchGet,
   couchPost,
   updateDatabase,
+  sendError,
 };
