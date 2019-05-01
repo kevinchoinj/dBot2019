@@ -4,7 +4,6 @@ const {
 } = require('../messaging/embeds');
 const {
   getRequestValue,
-  getRequestValueMulti,
 } = require('../actions/parseData');
 const {
   setConfigVar,
@@ -20,17 +19,27 @@ const {
 const {
   receiveShodyraImgurMessage,
 } = require('./shodyraImgur');
+const {
+  receiveShodyraFileMessage,
+} = require('./shodyraFile');
+const {
+  receiveShodyraConfigMessage,
+} = require('./shodyraConfig');
 
 const receiveShodyraMessage = (message) => {
 
   if (message.content.startsWith('!imgur')){
     receiveShodyraImgurMessage(message);
   }
-
+  else if (message.content.startsWith('!file')){
+    receiveShodyraFileMessage(message);
+  }
+  else if (message.content.startsWith('!config')){
+    receiveShodyraConfigMessage(message);
+  }
   else if (message.content.startsWith('!adminstats')){
     message.channel.send(createAdminEmbed());
   }
-
   else if (message.content.startsWith('!setDebug')) {
     const requestValue = getRequestValue(message.content);
     const databaseUrl = `_design/data/_view/data?key="debug"&include_docs=true`
@@ -70,37 +79,6 @@ const receiveShodyraMessage = (message) => {
     });
   }
 
-  else if (message.content.startsWith('!writeFile')){
-    const requestValues = getRequestValueMulti(message.content);
-    fs.writeFile(requestValues.valueOne, requestValues.valueTwo, (err) => {
-      if (err) {
-        message.channel.send(`Error creating file: ${requestValues.valueOne}`);
-      }
-      else {
-        message.channel.send(`File created: ${requestValues.valueOne}`);
-      }
-    });
-  }
-
-  else if (message.content.startsWith('!copyFile')){
-    const requestValues = getRequestValueMulti(message.content);
-    let myReadStream = fs.createReadStream(requestValues[0], 'utf8');
-    let myWriteStream = fs.createWriteStream(requestValues[1]);
-    myReadStream.pipe(myWriteStream);
-    message.channel.send(`File copied: ${requestValues[0]} to ${requestValues[1]}`);
-  }
-
-  else if (message.content.startsWith('!deleteFile')){
-    const requestValue = getRequestValue(message.content);
-    fs.unlink(requestValue, (err) => {
-      if (err) {
-        message.channel.send(`Error removing file: ${requestValue}`);
-      }
-      else {
-        message.channel.send(`File removed: ${requestValue}`);
-      }
-    });
-  }
 
   if (message.content.startsWith('!test')){
     sendDebugMessage('debug message');

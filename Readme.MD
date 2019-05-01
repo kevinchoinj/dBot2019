@@ -23,13 +23,15 @@ Commands for the master user `!<command>`
 | `adminstats`               |Displays system data                       |
 | `mkdir [dir name]`         |Creates empty directory                    |
 | `rmdir [dir name]`         |Deletes empty directory                    |
-| `writeFile [file name] [content]`|Creates named file                   |
-| `copyFile [orig file] [dest file]`|Copies file to another              |
-| `deleteFile [file name]`   |Deletes named file                         |
+| `fileWrite [file name] [content]`|Creates named file                   |
+| `fileCopy [orig file] [dest file]`|Copies file to another              |
+| `fileDelete [file name]`   |Deletes named file                         |
 | `imgurAdd [album label] [album id]` |Adds Imgur album to collection    |
 | `imgurRemove [album label]`|Removes Imgur album from collection        |
 | `imgurList`                |Lists Imgur albums in collection           |
 | `setDebug [channel id]`    |Sets debug messaging channel               |
+| `configDebug`              |Sends ID for current Debug Channel         |
+| `configError`              |Sends most recent Error stored in couchDB  |
 
 
 ## Necessary Files
