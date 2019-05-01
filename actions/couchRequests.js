@@ -1,7 +1,4 @@
 const NodeCouchDb = require('node-couchdb');
-const {
-  sendError,
-} = require( '../actions/errors');
 
 let json = require('../config.json');
 
@@ -21,9 +18,6 @@ const getCouch = () => {
 
 const couchGet = (database, databaseViewUrl) => new Promise((resolve, reject) => {
   resolve(couch.get(database, databaseViewUrl));
-  reject((error) => {
-    sendError('couch get', error, 'couchGet error');
-  });
 });
 
 const couchPost = (database, newData) => new Promise((resolve) => {
@@ -62,9 +56,6 @@ const updateDatabase = (databaseName, databaseViewUrl, newData) => new Promise((
         });
       }
     }));
-  reject((error) => {
-    sendError('couch update', error, 'updateDatabase error');
-  });
 });
 
 module.exports = {

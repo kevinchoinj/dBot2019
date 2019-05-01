@@ -1,6 +1,6 @@
 const {
   couchPost,
-} = require('./couchRequests.js');
+} = require('./couchRequests');
 
 const json = require('../config.json');
 const dbErrors = json.dbErrors;

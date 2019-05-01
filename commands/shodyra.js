@@ -25,6 +25,9 @@ const {
 const {
   receiveShodyraConfigMessage,
 } = require('./shodyraConfig');
+const {
+  receiveShodyraFetchMessage,
+} = require('./shodyraFetch');
 
 const receiveShodyraMessage = (message) => {
 
@@ -36,6 +39,9 @@ const receiveShodyraMessage = (message) => {
   }
   else if (message.content.startsWith('!config')){
     receiveShodyraConfigMessage(message);
+  }
+  else if (message.content.startsWith('!fetch')){
+    receiveShodyraFetchMessage(message);
   }
   else if (message.content.startsWith('!adminstats')){
     message.channel.send(createAdminEmbed());

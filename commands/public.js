@@ -10,11 +10,9 @@ const {
 const {
   createCommandsEmbed,
 } = require('../messaging/embeds');
-
 const {
-  getBot,
-} = require('../configuration/discordBot');
-
+  sendError,
+} = require('../actions/errors');
 const rp = require('request-promise');
 let requestValue = '';
 
@@ -24,7 +22,7 @@ const receivePublicMessage = (message) => {
   }
   if (getNames()[requestValue]) {
     rp(getImgurOptions(getNames()[requestValue]))
-      .then(function(res) {
+      .then((res) => {
         let parsed =  JSON.parse(res);
         let randomNumber = getRandom(parsed.data.images_count);
         if (parsed.data.images[randomNumber]) {
@@ -33,6 +31,9 @@ const receivePublicMessage = (message) => {
         else {
           message.channel.send('Error posting image');
         }
+      })
+      .catch((err) => {
+        sendError('Discord Shodyra', err, 'Imgur Get Error');
       });
   }
   if (message.content.startsWith('!commands')) {
