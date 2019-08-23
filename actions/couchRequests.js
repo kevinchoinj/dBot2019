@@ -2,6 +2,7 @@ const NodeCouchDb = require('node-couchdb');
 
 const nano = require('nano')('http://localhost:5984');
 const errorDatabase = nano.db.use('errors');
+const channelDatabase = nano.db.use('shodyra_discord');
 
 let json = require('../config.json');
 const dbErrors = json.dbErrors;
@@ -15,7 +16,7 @@ const couch = new NodeCouchDb({
   }
 });
 
-const getErrors = () =>  new Promise((resolve) => {
+const getErrors = () =>  new Promise((resolve, reject) => {
   resolve(errorDatabase.view('errors', 'errors', { include_docs: true }));
   reject((error) => {
     sendError('couch get', error, 'couchGet error');
@@ -42,16 +43,20 @@ const couchGet = (database, databaseViewUrl) => new Promise((resolve, reject) =>
   });
 });
 
-const couchPost = (database, newData) => new Promise((resolve) => {
-  resolve(couch.uniqid()
-    .then(function(ids){
-      const id = ids[0];
-      couch.insert(database, Object.assign({
-        _id: id,
-        created_at: Date.now(),
-        updated_at: Date.now(),
-      }, newData));
-    }));
+const getChannels = () =>  new Promise((resolve, reject) => {
+  resolve(channelDatabase.view('data', 'data', { key: 'test', include_docs: true }));
+  reject((error) => {
+    sendError('couch get', error, 'couchGet error');
+  });
+});
+const getChannel = (channel) =>  new Promise((resolve, reject) => {
+  resolve(channelDatabase.view('data', 'data', { key: channel, include_docs: true }));
+  reject((error) => {
+    sendError('couch get', error, 'couchGet error');
+  });
+});
+const updateChannels = () => new Promise((resolve, reject) => {
+  resolve(channelDatabase.view('data', 'data', { include_docs: true }))
 });
 
 const updateDatabase = (databaseName, databaseViewUrl, newData) => new Promise((resolve, reject) => {
@@ -86,8 +91,10 @@ const updateDatabase = (databaseName, databaseViewUrl, newData) => new Promise((
 module.exports = {
   getCouch,
   couchGet,
-  couchPost,
   updateDatabase,
   sendError,
   getErrors,
+  getChannels,
+  getChannel,
+  updateChannels,
 };

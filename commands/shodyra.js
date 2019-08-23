@@ -12,6 +12,9 @@ const {
 const {
   updateDatabase,
   getErrors,
+  updateChannels,
+  getChannels,
+  getChannel,
 } = require('../actions/couchRequests');
 const {
   getBot,
@@ -88,8 +91,19 @@ const receiveShodyraMessage = (message) => {
 
 
   if (message.content.startsWith('!test')){
+    /*
     getErrors()
       .then(body => {console.log(body.rows)});
+    */
+   getChannel('debug')
+    .then((body, error) => {
+      if (!error) {
+        console.log(body.rows);
+      }
+      else {
+        console.log('error');
+      }
+    });
     //sendDebugMessage('debug message');
   }
 };

@@ -4,21 +4,20 @@ const {
   setConfigVar,
 } = require('../configuration/localData');
 const {
-  couchGet,
+  getErrors,
 } = require('../actions/couchRequests');
 const {
   sendDebugMessage,
 } = require('../configuration/discordBot');
 
-/*
+
 cron.schedule('* * * * *', function() {
-    couchGet('errors', `_design/errors/_view/errors?include_docs=true`)
-      .then((data)=> {
-        let recentError = data.data.rows[0];
-        if (recentError.id !== getConfigVar('error').id) {
-          setConfigVar(recentError, 'error');
-          sendDebugMessage(recentError.value.text);
-        }
-      });
+  getErrors()
+    .then(body => {
+      const recentError = body.rows[0];
+      if (recentError.id !== getConfigVar('error').id) {
+        setConfigVar(recentError, 'error');
+        sendDebugMessage(recentError.value.text);
+      }
+    });
 });
-*/
