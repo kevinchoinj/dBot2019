@@ -1,5 +1,8 @@
 const NodeCouchDb = require('node-couchdb');
 
+const nano = require('nano')('http://localhost:5984');
+const errorDatabase = nano.db.use('errors');
+
 let json = require('../config.json');
 const dbErrors = json.dbErrors;
 const couchUsername = json.couchUsername;
@@ -12,14 +15,21 @@ const couch = new NodeCouchDb({
   }
 });
 
+const getErrors = () =>  new Promise((resolve) => {
+  resolve(errorDatabase.view('errors', 'errors', { include_docs: true }));
+  reject((error) => {
+    sendError('couch get', error, 'couchGet error');
+  });
+});
+
 const sendError = (component, error, text) => {
-  couchPost(dbErrors, {
+  errorDatabase.insert({
     app: 'discordClean',
     component: component,
     error: error,
     text: text,
   });
-};
+}
 
 const getCouch = () => {
   return couch;
@@ -79,4 +89,5 @@ module.exports = {
   couchPost,
   updateDatabase,
   sendError,
+  getErrors,
 };

@@ -11,6 +11,7 @@ const {
 } = require('../configuration/localData');
 const {
   updateDatabase,
+  getErrors,
 } = require('../actions/couchRequests');
 const {
   getBot,
@@ -87,7 +88,9 @@ const receiveShodyraMessage = (message) => {
 
 
   if (message.content.startsWith('!test')){
-    sendDebugMessage('debug message');
+    getErrors()
+      .then(body => {console.log(body.rows)});
+    //sendDebugMessage('debug message');
   }
 };
 

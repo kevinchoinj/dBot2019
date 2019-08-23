@@ -43,7 +43,7 @@ const createCommandsEmbed = () => {
       **!imgurRemove [album label]** - Removes Imgur album from collection
       **!imgurList** - Lists Imgur albums in collection
       **!setDebug [channel id]** - Sets debug channel ID
-      **!fetchGithub** - Displays recent github commits
+      **!fetchGit** - Displays recent github commits
     `);
   return {embed};
 }

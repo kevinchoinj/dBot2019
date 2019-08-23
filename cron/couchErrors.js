@@ -10,6 +10,7 @@ const {
   sendDebugMessage,
 } = require('../configuration/discordBot');
 
+/*
 cron.schedule('* * * * *', function() {
     couchGet('errors', `_design/errors/_view/errors?include_docs=true`)
       .then((data)=> {
@@ -20,3 +21,4 @@ cron.schedule('* * * * *', function() {
         }
       });
 });
+*/
