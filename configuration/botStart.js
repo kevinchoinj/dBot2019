@@ -5,27 +5,12 @@ const {
   getBot,
 } = require('./discordBot');
 const {
-  checkCouch,
-} = require('./couchInitialize');
-const {
-  couchGet,
+  getChannels,
 } = require('../actions/couchRequests');
 const {
-  setConfigVar
+  setConfigVar,
 } = require('./localData');
-
-// create databases if they do not exist
-checkCouch(
-  'shodyra_discord',
-  'ids',
-  `function (doc) {
-    emit(doc.channelType, {
-      channelType: doc.channelType,
-      channelId: doc.channelId,
-    });
-  }`
-);
-
+const { mergeAll } = require('ramda');
 /*
 const idArray = [
   {idLabel: 'twitter', idVariable: 'twitterChannelId'},
@@ -46,24 +31,22 @@ idArray.map((idRow) => {
 });
 */
 
-//get recent error from database and store locally
-couchGet('errors', `_design/errors/_view/errors?include_docs=true`).then(
-  function(data) {
-    if (data.data.rows[0]) {
-      setConfigVar(data.data.rows[0], 'error');
-    }
-  }
-);
-
-//get channel id from database for where to post debug messages to
-couchGet('shodyra_discord', `_design/data/_view/data?key="debug"&include_docs=true`).then(
-  function(data) {
-    if (data.data.rows[0]) {
-      setConfigVar(data.data.rows[0].value.channelId, 'debugChannelId');
-    }
-  }
-);
-
+/*
+getChannels().then(data => {
+ const documentData = mergeAll(data.rows.map((val) => {
+    const data = val.value;
+    return {
+      [data.channelType]: data.channelId
+    };
+  }));
+});
+*/
+getChannels().then(data => {
+  mergeAll(data.rows.map((val) => {
+     const data = val.value;
+     setConfigVar(data.channelId, data.channelType);
+   }));
+ });
 const bot = getBot();
 
 bot.on('ready', () => {

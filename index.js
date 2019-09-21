@@ -31,6 +31,10 @@ bot.on('message', function(message){
   }
   else {
     //shodyra commands
+    console.log(message.embeds);
+    if (message.embeds && message.embeds[0] && message.embeds[0].image) {
+      console.log(message.embeds[0].image.url)
+    }
     if (message.author.id === adminId) {
       receiveShodyraMessage(message);
     }

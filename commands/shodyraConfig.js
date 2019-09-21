@@ -4,7 +4,7 @@ const {
 
 const receiveShodyraConfigMessage = (message) => {
   if (message.content.startsWith('!configDebug')){
-    message.channel.send(`Debug ID: ${getConfigVar('debugChannelId')}`);
+    message.channel.send(`Debug ID: ${getConfigVar('debug')}`);
   }
   else if (message.content.startsWith('!configError')){
     message.channel.send(`Debug ID: ${getConfigVar('error').value.text}`);

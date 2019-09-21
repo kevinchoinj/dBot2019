@@ -10,15 +10,11 @@ const {
   getConfigVar,
 } = require('../configuration/localData');
 const {
-  updateDatabase,
-  getErrors,
   updateChannels,
-  getChannels,
   getChannel,
 } = require('../actions/couchRequests');
 const {
   getBot,
-  sendDebugMessage,
 } = require('../configuration/discordBot');
 const {
   receiveShodyraImgurMessage,
@@ -52,16 +48,11 @@ const receiveShodyraMessage = (message) => {
   }
   else if (message.content.startsWith('!setDebug')) {
     const requestValue = getRequestValue(message.content);
-    const databaseUrl = `_design/data/_view/data?key="debug"&include_docs=true`
-    let newData = {
-      channelType: 'debug',
-      channelId: requestValue,
-    };
-    updateDatabase('shodyra_discord', databaseUrl, newData)
+    updateChannels('debug', requestValue)
       .then(()=> {
-        setConfigVar(requestValue, 'debugChannelId');
+        setConfigVar(requestValue, 'debug');
         message.channel.send(`Debug Channel ID updated to ${requestValue}`);
-        getBot().channels.get(getConfigVar('debugChannelId')).send('This channel updated for bot debug messages');
+        getBot().channels.get(getConfigVar('debug')).send('This channel updated for bot debug messages');
       });
   }
 

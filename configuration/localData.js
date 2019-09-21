@@ -1,6 +1,6 @@
 let configVars = {
   error: {},
-  debugChannelId: false,
+  debug: false,
 };
 
 const setConfigVar = (payload, key) => {
