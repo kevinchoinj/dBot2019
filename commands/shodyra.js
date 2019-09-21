@@ -10,7 +10,7 @@ const {
   getConfigVar,
 } = require('../configuration/localData');
 const {
-  updateChannels,
+  updateChannel,
   getChannel,
 } = require('../actions/couchRequests');
 const {
@@ -48,7 +48,7 @@ const receiveShodyraMessage = (message) => {
   }
   else if (message.content.startsWith('!setDebug')) {
     const requestValue = getRequestValue(message.content);
-    updateChannels('debug', requestValue)
+    updateChannel('debug', requestValue)
       .then(()=> {
         setConfigVar(requestValue, 'debug');
         message.channel.send(`Debug Channel ID updated to ${requestValue}`);
