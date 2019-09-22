@@ -17,7 +17,11 @@ cron.schedule('* * * * *', function() {
       const recentError = body.rows[0];
       if (recentError.id !== getConfigVar('error').id) {
         setConfigVar(recentError, 'error');
-        sendDebugMessage(recentError.value.text);
+        const errorData = recentError.value;
+        sendDebugMessage(
+          `App: ${errorData.app}
+          Error: ${errorData.text}`
+        );
       }
     });
 });
