@@ -32,7 +32,7 @@ const getChannels = () =>  new Promise((resolve, reject) => {
     };
   });
 });
-const getChannels = (channel) =>  new Promise((resolve, reject) => {
+const getChannel = (channel) =>  new Promise((resolve, reject) => {
   channelDatabase.view('data', 'data', { key: channel, include_docs: true }, (err, body) => {
     if (err) {
       sendError('couch get', err, 'couchGet error');

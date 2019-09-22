@@ -14,7 +14,7 @@ const getBot = () => {
 }
 
 const sendDebugMessage = (message) => {
-  const channelId = getConfigVar('debugChannelId');
+  const channelId = getConfigVar('debug');
   if (channelId && bot.channels.get(channelId)) {
     bot.channels.get(channelId).send(message);
   }

@@ -7,7 +7,16 @@ const receiveShodyraConfigMessage = (message) => {
     message.channel.send(`Debug ID: ${getConfigVar('debug')}`);
   }
   else if (message.content.startsWith('!configError')){
-    message.channel.send(`Debug ID: ${getConfigVar('error').value.text}`);
+    const errorData = getConfigVar('error').value;
+    console.log(getConfigVar('error'));
+    if (errorData) {
+      message.channel.send(
+      `App: ${errorData.app}
+Error: ${errorData.text}`);
+    }
+    else {
+      message.channel.send('No error data found');
+    }
   }
 };
 

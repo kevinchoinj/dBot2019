@@ -6,6 +6,7 @@ const {
 } = require('./discordBot');
 const {
   getChannels,
+  getErrors,
 } = require('../actions/couchRequests');
 const {
   setConfigVar,
@@ -20,7 +21,13 @@ getChannels().then((data) => {
     }));
     }
  });
+ getErrors().then((data) => {
+   if (data) {
+     setConfigVar(data.rows[0], 'error');
+   }
+ })
 const bot = getBot();
+
 
 bot.on('ready', () => {
   bot.user.setActivity('js');
