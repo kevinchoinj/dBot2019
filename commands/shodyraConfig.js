@@ -8,7 +8,6 @@ const receiveShodyraConfigMessage = (message) => {
   }
   else if (message.content.startsWith('!configError')){
     const errorData = getConfigVar('error').value;
-    console.log(getConfigVar('error'));
     if (errorData) {
       message.channel.send(
       `App: ${errorData.app}

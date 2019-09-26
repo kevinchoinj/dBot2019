@@ -24,11 +24,10 @@ const secondsToString = (seconds) => {
   return stringsArray.join(', ');
 };
 
-const getRequestValue = (message) => {
-  const commandArray = message.split(' ');
-  const inputValue =  commandArray.slice(1).join(' ');
-  return inputValue;
-};
+  const getRequestValue = (message) => {
+    const commandArray = message.split(' ');
+    return commandArray[1];
+  };
 
 const getRequestValueMulti = (message) => {
   const commandArray = message.split(' ');

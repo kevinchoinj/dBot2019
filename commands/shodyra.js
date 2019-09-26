@@ -82,21 +82,12 @@ const receiveShodyraMessage = (message) => {
 
 
   if (message.content.startsWith('!test')){
-    /*
-    getErrors()
-      .then(body => {console.log(body.rows)});
-    */
-   getChannel('debug')
-    .then((body, error) => {
-      if (!error) {
-        console.log(body.rows);
-      }
-      else {
-        console.log('error');
-      }
-    });
-    //sendDebugMessage('debug message');
+    const testArray = ['asdf', 'word', 'apple', 'orange']
+    const requestValue = getRequestValue(message.content);
+    console.log(requestValue);
+    message.channel.send(testArray[requestValue] ? testArray[requestValue] : 'Word not found');
   }
+
 };
 
 module.exports = {
