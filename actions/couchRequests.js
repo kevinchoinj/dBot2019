@@ -2,7 +2,6 @@
 const nano = require('nano')('http://localhost:5984');
 const errorDatabase = nano.db.use('errors');
 const channelDatabase = nano.db.use('shodyra_discord');
-const fakeDatabase = nano.db.use('fakerino');
 
 /* -- ERRORS -- */
 const getErrors = () =>  new Promise((resolve, reject) => {
@@ -53,7 +52,7 @@ const updateChannels = (channelName, channelId) => new Promise((resolve, reject)
           _rev: data.rows[0].doc._rev,
           channelType: channelName,
           channelId: channelId,
-        });
+        }, data.rows[0].doc._id);
       }
       else {
         return channelDatabase.insert({

@@ -10,8 +10,7 @@ const {
   getConfigVar,
 } = require('../configuration/localData');
 const {
-  updateChannel,
-  getChannel,
+  updateChannels,
 } = require('../actions/couchRequests');
 const {
   getBot,
@@ -48,7 +47,7 @@ const receiveShodyraMessage = (message) => {
   }
   else if (message.content.startsWith('!setDebug')) {
     const requestValue = getRequestValue(message.content);
-    updateChannel('debug', requestValue)
+    updateChannels('debug', requestValue)
       .then(()=> {
         setConfigVar(requestValue, 'debug');
         message.channel.send(`Debug Channel ID updated to ${requestValue}`);
@@ -82,10 +81,7 @@ const receiveShodyraMessage = (message) => {
 
 
   if (message.content.startsWith('!test')){
-    const testArray = ['asdf', 'word', 'apple', 'orange']
-    const requestValue = getRequestValue(message.content);
-    console.log(requestValue);
-    message.channel.send(testArray[requestValue] ? testArray[requestValue] : 'Word not found');
+  console.log('placeholder');
   }
 
 };
